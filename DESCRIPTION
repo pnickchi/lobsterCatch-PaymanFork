@@ -1,0 +1,13 @@
+Package: lobsterCatch 
+Title: Models capture processes in American lobster fishery
+Version: 0.0.2.2021
+Authors@R: c(
+    person("Cook", "Adam", email = "Adam.Cook@dfo-mpo.gc.ca", role = "cre"),
+    person("Pourfaraj", "vahab", email = "vahab.pourfaraj@dfo-mpo.gc.ca", role = "aut"))
+Description: To Be added
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

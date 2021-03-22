@@ -1,16 +1,17 @@
-#' This function simulates an arena and a number of lobsters to start with.
+#' This function simulates an arena, with lobsters in it based on the provided density, size and sex ratio
 #' @param nrowgrids is a numeric value which defines number of rows of the arena
 #' @param ncolgrids is a numeric value which defines number of columns of the arena
-#' @param initlambda is the density of lobsters
-#' @param initD is the dispersion index of lobsters 
-#' @param losbterSizeFile is a csv file that contains the size frequency of lobsters
+#' @param initlambda is the density of lobsters at the beginning of simulation
+#' @param initD is the dispersion index of lobsters on seabed at the beginning of the simulation
+#' @param losbterSizeFile is a csv file that contains the frequency of lobsters class size
+#' @param losbterSexDist is a list that contains the sex ratio of lobsters
 #' @return Returns  x and y coordinates of simulated lobsters at the beginning 
 
-initialLobsterGrid = function(nrowgrids, ncolgrids, initlambda, initD, losbterSizeFile){
+initialLobsterGrid = function(nrowgrids, ncolgrids, initlambda, initD, lobsterSizeFile, lobsterSexDist){
   
   ngrids <- nrowgrids * ncolgrids
   
-  stop.condition = FALSE # this is to take care of instances when no lobster is simulated(due to small density)
+  stop.condition = FALSE # this is to take care of instances when no lobster is simulated(due to low density)
   
   while(stop.condition == FALSE){
     initialLobster  <- rpoisD(n = ngrids,lambda = initlambda, D = initD)
@@ -31,9 +32,10 @@ initialLobsterGrid = function(nrowgrids, ncolgrids, initlambda, initD, losbterSi
   
   initialxyCoordinate$trapped <- 0 
   initialxyCoordinate$lobLength <- NA 
-  
-  if( losbterSizeFile != '' ){
-    lobsterSizeFreq <- read.csv(file = losbterSizeFile, header = TRUE, stringsAsFactors = FALSE)
+  initialxyCoordinate$lobSex    <- NA
+    
+  if( lobsterSizeFile != '' ){
+    lobsterSizeFreq <- read.csv(file = lobsterSizeFile, header = TRUE, stringsAsFactors = FALSE)
     lobsterSizeFreq$prob <- lobsterSizeFreq$freq / sum(lobsterSizeFreq$freq )
     labels   <- lobsterSizeFreq$bins
     lobProb <- lobsterSizeFreq$prob
@@ -41,6 +43,20 @@ initialLobsterGrid = function(nrowgrids, ncolgrids, initlambda, initD, losbterSi
     initialxyCoordinate$lobLength<-sample(x = labels, size = sum(initialLobster), replace = TRUE, prob = lobProb)
   }
   
+  if( length(lobsterSexDist) > 0 ){
+    
+    u  <- lobsterSexDist$lobsterMatThreshold
+    x  <- lobsterSexDist$labels
+    p1 <- lobsterSexDist$prob1
+    
+    indx1 <- which( initialxyCoordinate$lobLength >= u)
+    initialxyCoordinate[indx1, 'lobSex'] <- sample(x = x, size = length(indx1), replace = TRUE, prob = p1)
+    
+    p2 <- lobsterSexDist$prob2
+    initialxyCoordinate[-indx1, 'lobSex'] <- sample(x = x, size = nrow(initialxyCoordinate) - length(indx1), replace = TRUE, prob = p2)
+  }
+  
+
   return(initialxyCoordinate)
   
 }

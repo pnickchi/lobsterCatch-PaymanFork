@@ -5,7 +5,7 @@
 
 
 SimulateLobsterMovement = function(p){
-  #To be used for debugging purposes only 
+  #commented lines below: To be used for debugging purposes only 
   # nrowgrids  <- p$nrowgrids
   # ncolgrids  <- p$ncolgrids
   # initlambda <- p$initlambda
@@ -17,20 +17,22 @@ SimulateLobsterMovement = function(p){
   # dStep <- p$dStep
   # tSteps <- p$tSteps
   # howClose <- p$howClose
-  # q0 <- p$q0 
-  # qmin <- p$qmin 
+  # q0 <- p$q0
+  # qmin <- p$qmin
   # saturationThreshold <- p$saturationThreshold
   # trapSaturation <- p$trapSaturation
   # lengthBased <- p$lengthBased
   # lobLengthThreshold <- p$lobLengthThreshold
   # Trap <- p$Trap
   # radiusOfInfluence <- p$radiusOfInfluence
+  # lobsterSexDist <- p$lobsterSexDist
+  # lobsterSizeFile <- p$lobsterSizeFile
   
-  with(p,{
+  with(p, {
     
-  if( (p$lengthBased == TRUE) & (p$losbterSizeFile == '') ){
-      losbterSizeFile   <- file.choose()
-      p$losbterSizeFile <- losbterSizeFile
+  if( (p$lengthBased == TRUE) & (p$lobsterSizeFile == '') ){
+      lobsterSizeFile   <- file.choose()
+      p$lobsterSizeFile <- lobsterSizeFile
   }
     
   CatchSimulationOutput = list()
@@ -43,13 +45,15 @@ SimulateLobsterMovement = function(p){
     
     
     coordinatesOverTime      <- list()
-    coordinatesOverTime[[1]] <- initialLobsterGrid(nrowgrids, ncolgrids, initlambda, initD, losbterSizeFile)
+    coordinatesOverTime[[1]] <- initialLobsterGrid(nrowgrids, ncolgrids, initlambda, initD, lobsterSizeFile, lobsterSexDist)
     
     
     trapCatch           <- list()
     lobSize             <- list() 
+    lobSex              <- list() 
     trapCatch[[1]]      <- rep(0, length=ntraps)
     lobSize[[1]]        <- rep('',length=ntraps)
+    lobSex[[1]]         <- rep('',length=ntraps)
     
       
     for(t in 2:tSteps){
@@ -59,11 +63,12 @@ SimulateLobsterMovement = function(p){
       tempUpdateGrid = updateGrid(Lobster = coordinatesOverTime[[t-1]], 
                                   Trap = Trap, 
                                   trapCatch = trapCatch[[t-1]], 
-                                  lobSize = lobSize[[t-1]], 
+                                  lobSize = lobSize[[t-1]],
+                                  lobSex  = lobSex[[t-1]],
                                   radiusOfInfluence = radiusOfInfluence,
                                   currentZoI = currentZoI, dStep = dStep, howClose = howClose, q0 = q0, qmin = qmin, 
                                   saturationThreshold = saturationThreshold, trapSaturation = trapSaturation, lengthBased = lengthBased,
-                                  lobLengthThreshold = lobLengthThreshold )
+                                  lobLengthThreshold = lobLengthThreshold, sexBased = sexBased)
       # Adam: DO you think, this would help?
       #In case we ran out of space (memory)  the following line can be moved out of 
       #the loop so that we simply just Just keep the last iteration? To make things faster 
@@ -71,6 +76,7 @@ SimulateLobsterMovement = function(p){
       coordinatesOverTime[[t]] <- tempUpdateGrid[[1]]
       trapCatch[[t]]           <- tempUpdateGrid[[2]]
       lobSize[[t]]             <- tempUpdateGrid[[3]]
+      lobSex[[t]]              <- tempUpdateGrid[[4]]
     }
     
     
@@ -79,13 +85,16 @@ SimulateLobsterMovement = function(p){
     outmove$LobIndx = rep(1:nrow(coordinatesOverTime[[1]]), times=tSteps)
     
     outtraps   = as.data.frame(do.call(rbind, trapCatch))
-    outlobsize = as.data.frame(do.call(rbind, lobSize) )
+    outlobsize = as.data.frame(do.call(rbind, lobSize)  )
+    outlobsex  = as.data.frame(do.call(rbind, lobSex)   )
     colnames(outtraps)   = paste0( 'Trap', 1:ncol(outtraps) )
     colnames(outlobsize) = paste0( 'Trap', 1:ncol(outtraps) )
+    colnames(outlobsex)  = paste0( 'Trap', 1:ncol(outtraps) )
     
     outputs$traps    = outtraps
     outputs$lobsters = outmove
     outputs$lobSize  = outlobsize 
+    outputs$lobSex   = outlobsex 
     
     CatchSimulationOutput[[k]] = outputs
     print(paste('Timing', Sys.time()-start, 'for iteration #',k,sep=" "))

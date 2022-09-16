@@ -2,24 +2,33 @@
 % Please edit documentation in R/initialLobsterGrid.R
 \name{initialLobsterGrid}
 \alias{initialLobsterGrid}
-\title{This function simulates an arena and a number of lobsters to start with.}
+\title{This function simulates an arena, with lobsters in it based on the provided density, size and sex ratio}
 \usage{
-initialLobsterGrid(nrowgrids, ncolgrids, initlambda, initD, losbterSizeFile)
+initialLobsterGrid(
+  nrowgrids,
+  ncolgrids,
+  initlambda,
+  initD,
+  lobsterSizeFile,
+  lobsterSexDist
+)
 }
 \arguments{
 \item{nrowgrids}{is a numeric value which defines number of rows of the arena}
 
 \item{ncolgrids}{is a numeric value which defines number of columns of the arena}
 
-\item{initlambda}{is the density of lobsters}
+\item{initlambda}{is the density of lobsters at the beginning of simulation}
 
-\item{initD}{is the dispersion index of lobsters}
+\item{initD}{is the dispersion index of lobsters on seabed at the beginning of the simulation}
 
-\item{losbterSizeFile}{is a csv file that contains the size frequency of lobsters}
+\item{losbterSizeFile}{is a csv file that contains the frequency of lobsters class size}
+
+\item{losbterSexDist}{is a list that contains the sex ratio of lobsters}
 }
 \value{
 Returns  x and y coordinates of simulated lobsters at the beginning
 }
 \description{
-This function simulates an arena and a number of lobsters to start with.
+This function simulates an arena, with lobsters in it based on the provided density, size and sex ratio
 }

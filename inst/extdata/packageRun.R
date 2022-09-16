@@ -1,16 +1,6 @@
-source('catchability.R')
-source('directionalMove.R')
-source('dispersion.R')
-source('distanceToClosestTrap.R')
-source('distanceToTrapCalculator.R')
-source('initialLobsterGrid.R')
-source('randomMove.R')
-source('replicateCoordinates.R')
-source('rpoisD.R')
-source('SimulateLobsterMovement.R')
-source('trapInPath.R')
-source('updateGrid.R')
-source('GetSimOutput.R')
+require(lobsterCatch)
+require(bio.lobster)
+
 
 
 #initialize a parameter file to pass info into the code and then put all into a function
@@ -19,8 +9,8 @@ p = list()
 p$nrowgrids = 10
 p$ncolgrids = 10
 p$ngrids = p$nrowgrids * p$ncolgrids
-p$initlambda = 0.2
-p$initD = 3
+p$initlambda = 8 # Initial density of lobster
+p$initD = 3  #Initial Dispersion of lobster (initlambda and initD go into rpoissonD to randomly allocation lobster across the grid space)
 p$shrinkage = 0.993
 p$currentZoI = 15
 p$radiusOfInfluence = 15
@@ -30,7 +20,7 @@ p$saturationThreshold = 5
 p$howClose = 0.5
 p$dStep = 5
 p$lengthBased = TRUE
-p$lobsterSizeFile <- 'LobsterSizeFreqs.csv' 
+p$lobsterSizeFile <- '~/R/x86_64-pc-linux-gnu-library/4.0/lobsterCatch/extdata/LobsterSizeFreqs.csv' 
 p$lobLengthThreshold = 115
 p$trapSaturation = TRUE
 p$q0 = 0.5
@@ -47,6 +37,7 @@ p$lobsterSexDist <- list(labels = c('M','F','MM','BF'), #male, female, mature ma
 # p$lobsterSexDist <- ''  # in case of p$sexBased = FALSE
 
 TrialSim <- SimulateLobsterMovement(p)
+
 Results  <- GetSimOutput(TrialSim)
 
 

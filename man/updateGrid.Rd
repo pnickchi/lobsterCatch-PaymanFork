@@ -10,6 +10,7 @@ updateGrid(
   Trap,
   trapCatch,
   lobSize,
+  lobSex,
   radiusOfInfluence,
   currentZoI,
   dStep,
@@ -19,19 +20,20 @@ updateGrid(
   saturationThreshold,
   trapSaturation,
   lengthBased,
-  lobLengthThreshold
+  lobLengthThreshold,
+  sexBased
 )
 }
 \arguments{
-\item{Lobster}{location of lobster in x and y coordinates}
+\item{Lobster}{is the x & y coordinates of each lobster}
 
-\item{Trap}{location of trap in x and y coordinates}
+\item{Trap}{is the x & y coordinates of trap(s)}
 
-\item{trapCatch}{number of lobsters caught}
+\item{trapCatch}{number of captured lobster}
 
-\item{lobSize}{size of caught lobster}
+\item{lobSize}{size of captured lobster}
 
-\item{radiusOfInfluence}{is the initial radius of influence (Referred as I0 in the paper)}
+\item{radiusOfInfluence}{is the initial radius of influence (I0 in the paper)}
 
 \item{currentZoI}{is the bait's area of influence at each timestep}
 
@@ -51,6 +53,8 @@ another lobster entering the trap drops to qmin}
 \item{lengthBased}{is a logical parameter}
 
 \item{lobLengthThreshold}{is a length threshold (i.e. CL in centimeters) beyond which there is no chance of catching another lobster}
+
+\item{sexBased}{is a logical parameter}
 }
 \value{
 a list of new coordinates, number of catch and their sizes

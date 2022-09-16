@@ -3,7 +3,7 @@
 \name{catchability}
 \alias{catchability}
 \title{This function calculates the probability of entry to trap (aka catchability). In addition to parameters in Addison & Bell
-1997, length of catch is added and can be included in calculation of catchability.}
+1997, length of catch can is added and can be included in calculation of catchability.}
 \usage{
 catchability(
   q0,
@@ -12,7 +12,9 @@ catchability(
   Ct,
   lengthBased,
   lobLengthThreshold,
-  lobSize = NA
+  lobSize = NA,
+  sexBased,
+  lobSex
 )
 }
 \arguments{
@@ -31,6 +33,10 @@ another lobster entering the trap drops to qmin}
 
 \item{lobSize}{is a size frequency dataset which is set to NA by default}
 
+\item{sexBased}{is a logical parameter(TRUE/FALSE) which determines if sex of catch needs too be considered}
+
+\item{lobSex}{is the sex of the lobster}
+
 \item{r}{is the instantaneous rate of change in qo with respect to Ct}
 }
 \value{
@@ -38,5 +44,5 @@ Returns the probability of entry to trap
 }
 \description{
 This function calculates the probability of entry to trap (aka catchability). In addition to parameters in Addison & Bell
-1997, length of catch is added and can be included in calculation of catchability.
+1997, length of catch can is added and can be included in calculation of catchability.
 }

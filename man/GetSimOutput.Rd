@@ -5,13 +5,15 @@
 \title{This function extracts two pieces of information at the end of simulation: maximum numbr of trapped
 lobster and the time when that occurred.}
 \usage{
-GetSimOutput(x)
+GetSimOutput(x, mls = 82.5)
 }
 \arguments{
 \item{x}{is an object that contains information from function SimulateLobsterMovement}
+
+\item{mls}{is the minimum legal size for calculating catch weight}
 }
 \value{
-Returns  maximum catch and time to maximum catch
+Returns  maximum catch in number total weight, and legal wt and length of time to reach maximum catch
 }
 \description{
 This function extracts two pieces of information at the end of simulation: maximum numbr of trapped

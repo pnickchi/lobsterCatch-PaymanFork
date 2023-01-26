@@ -8,7 +8,7 @@ p = list()
 p$nrowgrids = 10
 p$ncolgrids = 10
 p$ngrids = p$nrowgrids * p$ncolgrids
-p$initlambda = 0.2 # Initial density of lobster
+p$initlambda = 0.4 # Initial density of lobster
 p$initD = 3  #Initial Dispersion of lobster (initlambda and initD go into rpoissonD to randomly allocation lobster across the grid space)
 p$shrinkage = 0.993
 #p$initlambda = 0.2 #is the density of lobsters at the beginning of simulation
@@ -21,7 +21,7 @@ p$saturationThreshold = 5
 p$howClose = 0.5
 p$dStep = 5
 p$lengthBased = TRUE
-p$lobsterSizeFile <- 'LobsterSizeFreqs.csv'
+p$lobsterSizeFile <- 'C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/inst/extdata/LobsterSizeFreqs.csv'
 #p$lobsterSizeFile <- 'LobsterSizeFreqs.csv'
 p$lobLengthThreshold = 115
 p$trapSaturation = TRUE
@@ -43,6 +43,7 @@ Simrun <- SimulateLobsterMovement(p)
 Results  <- GetSimOutput(Simrun)
 
 #unlisting the result to add parameters columns
+
 resultsdf<- data.frame(unlist(Results, FALSE, TRUE))
 
 #Converting to long format ( wasn't able to use pivot_longer!)
@@ -65,37 +66,7 @@ resultdfcomplete <- data.frame(timetomax = timetomax,
 
 #export the result as RDS
 
-saveRDS(resultdfcomplete, file = 'resultlambda2dstep5.rds')
-#In case we need to read an RDS or bunch them
-#Results<- readRDS("C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/R/resultlambda2dstep5.rds")
-
-
-#-------Reading in all RDS file and combining them
-
-densitydf <- list.files( path = "C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/Results/", pattern = "*.rds", full.names = TRUE ) %>%
-
-  map_dfr(readRDS)
-
-### Plotting
-ggplot(densitydf, aes(x=factor(densitylambda), y=maxcatchno))+
-  geom_boxplot() +
- stat_summary(fun = "mean",aes(colour="mean")) +
-  ylab("Number of lobster caught per trap")+
-  xlab("Density of lobsters")
-
-
-ggplot(densitydf, aes(x=factor(densitylambda), y=legalcatchwt))+
-  geom_boxplot()+
-  stat_summary(fun = "mean",aes(colour="mean")) +
-  ylab("Weight of legal catch") +
-  xlab("Density of lobsters")
-
-# to get summary stats
-summarydf<- densitydf %>%
-  group_by(densitylambda) %>%
-  summarise(mean = mean(maxcatchno))
-
-
+saveRDS(resultdfcomplete, file = 'resultlambda0.4dstep5.rds')
 
 
 

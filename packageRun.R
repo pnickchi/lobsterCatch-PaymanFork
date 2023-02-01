@@ -8,11 +8,9 @@ p = list()
 p$nrowgrids = 10
 p$ncolgrids = 10
 p$ngrids = p$nrowgrids * p$ncolgrids
-p$initlambda = 1 # Initial density of lobster
+p$initlambda = 0.5 # Initial density of lobster
 p$initD = 3  #Initial Dispersion of lobster (initlambda and initD go into rpoissonD to randomly allocation lobster across the grid space)
 p$shrinkage = 0.993
-#p$initlambda = 0.2 #is the density of lobsters at the beginning of simulation
-#p$initD = 3 #is the dispersion index of lobsters on seabed at the beginning of the simulation
 p$currentZoI = 15
 p$radiusOfInfluence = 15
 p$Trap = data.frame( x = c(3,5,6), y = c(3,5,6) )
@@ -24,10 +22,10 @@ p$lengthBased = TRUE
 
 p$lobsterSizeFile <- 'C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/inst/extdata/LobsterSizeFreqs.csv'
 p$lobLengthThreshold = 115
-p$trapSaturation = TRUE
+p$trapSaturation = FALSE
 p$q0 = 0.5
-p$qmin = 0
-p$realizations = 2 #number of iterations/simulations
+p$qmin = 0.5 # set to 0 for initial param and to 0.5 for local depletion
+p$realizations = 50 #number of iterations/simulations
 p$tSteps = 5       #timesteps per iteration
 p$sexBased <- TRUE
 # The following lines creates a sex distribution

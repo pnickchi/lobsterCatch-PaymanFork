@@ -17,14 +17,14 @@ p$Trap = data.frame( x = c(3,5,6), y = c(3,5,6) )
 p$ntraps = nrow(p$Trap)
 p$saturationThreshold = 5
 p$howClose = 0.5
-p$dStep = 10
+p$dStep = 5
 p$lengthBased = TRUE
 
 p$lobsterSizeFile <- 'C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/inst/extdata/LobsterSizeFreqs.csv'
 p$lobLengthThreshold = 115
-p$trapSaturation = FALSE
+p$trapSaturation = TRUE
 p$q0 = 0.5
-p$qmin = 0.5 # set to 0 for initial param and to 0.5 for local depletion
+p$qmin = 0 # set to 0 for initial param and to 0.5 for local depletion
 p$realizations = 50 #number of iterations/simulations
 p$tSteps = 5       #timesteps per iteration
 p$sexBased <- TRUE
@@ -52,19 +52,20 @@ totalcatchwt  <- c(resultsdf$TotalCatchWt.Trap1, resultsdf$TotalCatchWt.Trap2, r
 #taking the params used for naming purpose
 densitylambda<- rep.int(p$initlambda, p$realizations)
 dstepmov<- rep.int(p$dStep,p$realizations)
-
+saturationThreshold<- rep.int(p$saturationThreshold, p$realizations)
 
 resultdfcomplete <- data.frame(timetomax = timetomax,
                                maxcatchno = maxcatchno,
                                legalcatchwt = legalcatchwt,
                                totalcatchwt = totalcatchwt,
                                densitylambda = densitylambda,
-                               dstepmov= dstepmov)
+                               dstepmov= dstepmov,
+                               saturationThreshold=saturationThreshold)
 
 
 #export the result as RDS
 dstepvalue<- resultdfcomplete$dstepmov[2]
 densityvalue<- resultdfcomplete$densitylambda[2]
-
-saveRDS(resultdfcomplete, sprintf('dstep%s_density%s.rds',dstepvalue, densityvalue))
+Saturationvalue<- resultdfcomplete$saturationThreshold[2]
+saveRDS(resultdfcomplete, sprintf('dstep%s_density%s_saturation%s.rds',dstepvalue, densityvalue, Saturationvalue))
 

@@ -5,7 +5,7 @@ library(tidyverse)
 #Resultscheck<- readRDS("C:/Users/pourfarajv/Desktop/Nosatlambda0.1dstep5.rds")
 
 
-#-------Reading in all RDS file and combining them
+#--Reading in  RDS files and combining w/o saturation datasets
 
 NOSat_densityimapctdf <- list.files( path =
 'C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/resultsVP/densityimpact/NoSaturation/', pattern = "*.rds", full.names = TRUE ) %>%
@@ -17,12 +17,9 @@ Sat5_densityimapctdf <- list.files( path ='C:/Users/pourfarajv/Desktop/Kumu_R_Vi
   mutate(Trap_saturation= "5")
 
 SatimpactDF<- bind_rows(Sat5_densityimapctdf,NOSat_densityimapctdf)
-
-### Plotting
-
-
 selecteddensity<- filter(SatimpactDF, densitylambda == 0.1 | densitylambda== 0.5 | densitylambda== 1 | densitylambda== 1.6)
 
+# Plotting (Fig 4)
 ggplot(selecteddensity, aes(x=factor(densitylambda), y=maxcatchno)) +
   stat_summary(fun.y=mean,  geom="line", aes(group = Trap_saturation, color=Trap_saturation)) +
   stat_summary(fun.y=mean,  geom="point", aes(group = Trap_saturation, color=Trap_saturation)) +
@@ -32,60 +29,38 @@ ggplot(selecteddensity, aes(x=factor(densitylambda), y=maxcatchno)) +
   ggtitle("Fig 4 of Addison & Bell paper replicated using 3 traps")
 
 
-stat_summary(fun = "mean", geom = "point") +
+# (Fig 6)
 
-ggplot(densityimapctdf, aes(x=factor(densitylambda), y=maxcatchno))+
-  geom_boxplot() +
-  stat_summary(fun = "mean",aes(colour="mean")) +
-  ylab("Number of lobster caught per trap")+
-  xlab("Lobsters density") +
+localdepDF <- list.files( path ='C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/resultsVP/localdepletion/', pattern = "*.rds", full.names = TRUE ) %>%
+  map_dfr(readRDS)
+localdepDF$dstepmov <- factor(localdepDF$dstepmov)
+ggplot(localdepDF, aes(x=densitylambda, y=maxcatchno)) +
+  stat_summary(fun.y=mean,  geom="line", aes(group = dstepmov, color=dstepmov, linetype=dstepmov)) +
+  stat_summary(fun.y=mean,  geom="point", aes(group = dstepmov, color=dstepmov)) +
+  xlab("Lobster density") +
   theme(panel.border = element_blank()) +
-  ggtitle("Relationship between lobster density and the mean catch when no trap saturation")
+  scale_y_continuous(name = "Mean cath (no lobster per trap)")  +
+  ggtitle("Fig 6 of Addison & Bell paper replicated")
 
+# (Fig 7)
 
-ggplot(densityimapctdf, aes(x=factor(densitylambda), y=legalcatchwt))+
-  geom_boxplot()+
-  stat_summary(fun = "mean",aes(colour="mean")) +
-  ylab("Weight of legal catch") +
-  xlab("Lobsters density") +
+variedsat <- list.files( path ='C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/resultsVP/variedSaturation/', pattern = "*.rds", full.names = TRUE ) %>%
+  map_dfr(readRDS)
+variedsat$saturationThreshold <- factor(variedsat$saturationThreshold)
+ggplot(variedsat, aes(x=densitylambda, y=maxcatchno)) +
+  stat_summary(fun.y=mean,  geom="line", aes(group = saturationThreshold, color=saturationThreshold, linetype=saturationThreshold)) +
+  stat_summary(fun.y=mean,  geom="point", aes(group = saturationThreshold, color=saturationThreshold)) +
+  xlab("Lobster density") +
   theme(panel.border = element_blank()) +
-  ggtitle("Relationship between lobster density and the mean weight of legal catch when no trap saturation")
+  scale_y_continuous(name = "Mean cath (no lobster per trap)")  +
+  ggtitle("Fig 7 of Addison & Bell paper replicated")
 
 
 # to get summary stats
-summarydf<- densityimapctdf %>%
-  group_by(densitylambda) %>%
+summarydf<- localdepDF %>%
+  group_by( densitylambda, dstepmov) %>%
   summarise(mean = mean(maxcatchno))
 
-
-
-#---- density and movement
-densityANDdstep <- list.files( path =
-'C:/Users/pourfarajv/Desktop/MLS70/') %>%
-  map_dfr(readRDS)
-
-densityANDdstep$dstepmov <- as.factor(densityANDdstep$dstepmov)
-densityANDdstep$densitylambda <- as.factor(densityANDdstep$densitylambda)
-
-summarydf<- densityANDdstep %>%
-  group_by( dstepmov) %>%
-  summarise(mean = mean(maxcatchno))
-
-ggplot(summarydf, aes(x = densitylambda, y = mean, group = dstepmov)) +
-  geom_line(aes(linetype = dstepmov, color = dstepmov))+
-  geom_point(aes(shape = dstepmov))+ ylab("Mean number of lobster caught per trap")+
-  xlab("Lobsters density") +
-  theme(panel.border = element_blank()) +
-  ggtitle("Relationship between lobster density and lobster movement
-          on the mean catch - No trap saturation")
-
-ggplot(densityANDdstep, aes(x = dstepmov, y = maxcatchno, group = dstepmov)) +
-  geom_boxplot()+
-  stat_summary(fun = "mean",aes(colour="mean")) +
-  ylab("Number of lobster in trap") +
-  xlab("Lobsters movement") +
-  theme(panel.border = element_blank()) +
-  ggtitle("Relationship between lobster movement and number of sublegal lobster caught")
 
 #### Adam's CPUE results
 cpue<- readRDS ("tempCatchability.rds")

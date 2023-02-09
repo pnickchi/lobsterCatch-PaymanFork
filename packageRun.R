@@ -5,28 +5,28 @@ library(ggplot2)
 #initialize a parameter file to pass info into the code and then put all into a function
 p = list()
 
-p$nrowgrids = 10
-p$ncolgrids = 10
+p$nrowgrids = 50
+p$ncolgrids = 50
 p$ngrids = p$nrowgrids * p$ncolgrids
 p$initlambda = 0.5 # Initial density of lobster
 p$initD = 3  #Initial Dispersion of lobster (initlambda and initD go into rpoissonD to randomly allocation lobster across the grid space)
-p$shrinkage = 0.993
+p$shrinkage = 0.993 #initial shrinkage is 0.993
 p$currentZoI = 15
 p$radiusOfInfluence = 15
-p$Trap = data.frame( x = c(3,5,6), y = c(3,5,6) )
+p$Trap = data.frame( x = c(5,6,7), y = c(5,6,7) ) #3 traps were used in our sims
 p$ntraps = nrow(p$Trap)
 p$saturationThreshold = 5
 p$howClose = 0.5
-p$dStep = 5
+p$dStep = 10
 p$lengthBased = TRUE
 
 p$lobsterSizeFile <- 'C:/Users/pourfarajv/Desktop/Kumu_R_Visulization/AgentbasedModeling/lobsterCatch/inst/extdata/LobsterSizeFreqs.csv'
 p$lobLengthThreshold = 115
-p$trapSaturation = TRUE
+p$trapSaturation = FALSE
 p$q0 = 0.5
 p$qmin = 0 # set to 0 for initial param and to 0.5 for local depletion
 p$realizations = 50 #number of iterations/simulations
-p$tSteps = 5       #timesteps per iteration
+p$tSteps = 15       #timesteps per iteration (5 was used before Feb 8th, 2023)
 p$sexBased <- TRUE
 # The following lines creates a sex distribution
 p$lobsterSexDist <- list(labels = c('M','F','MM','BF'), #male, female, mature male, berried female
@@ -53,19 +53,21 @@ totalcatchwt  <- c(resultsdf$TotalCatchWt.Trap1, resultsdf$TotalCatchWt.Trap2, r
 densitylambda<- rep.int(p$initlambda, p$realizations)
 dstepmov<- rep.int(p$dStep,p$realizations)
 saturationThreshold<- rep.int(p$saturationThreshold, p$realizations)
-
+baitShrinkage<- rep.int(p$shrinkage, p$realizations)
 resultdfcomplete <- data.frame(timetomax = timetomax,
                                maxcatchno = maxcatchno,
                                legalcatchwt = legalcatchwt,
                                totalcatchwt = totalcatchwt,
                                densitylambda = densitylambda,
                                dstepmov= dstepmov,
-                               saturationThreshold=saturationThreshold)
+                               saturationThreshold=saturationThreshold,
+                               baitShrinkage= baitShrinkage)
 
 
 #export the result as RDS
 dstepvalue<- resultdfcomplete$dstepmov[2]
 densityvalue<- resultdfcomplete$densitylambda[2]
 Saturationvalue<- resultdfcomplete$saturationThreshold[2]
-saveRDS(resultdfcomplete, sprintf('dstep%s_density%s_saturation%s.rds',dstepvalue, densityvalue, Saturationvalue))
+shrinkagefactor<- resultdfcomplete$baitShrinkage[2]
+saveRDS(resultdfcomplete, sprintf('dstep%s_density%s_saturation%s_shrinkage%s.rds',dstepvalue, densityvalue, Saturationvalue, shrinkagefactor))
 

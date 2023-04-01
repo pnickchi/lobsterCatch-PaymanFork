@@ -2,7 +2,7 @@
 % Please edit documentation in R/GetSimOutput.R
 \name{GetSimOutput}
 \alias{GetSimOutput}
-\title{This function extracts two pieces of information at the end of simulation: maximum numbr of trapped
+\title{This function extracts two pieces of information at the end of simulation: maximum number of trapped
 lobster and the time when that occurred.}
 \usage{
 GetSimOutput(x, mls = 82.5)
@@ -16,6 +16,6 @@ GetSimOutput(x, mls = 82.5)
 Returns  maximum catch in number total weight, and legal wt and length of time to reach maximum catch
 }
 \description{
-This function extracts two pieces of information at the end of simulation: maximum numbr of trapped
+This function extracts two pieces of information at the end of simulation: maximum number of trapped
 lobster and the time when that occurred.
 }

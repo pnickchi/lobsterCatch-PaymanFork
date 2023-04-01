@@ -6,27 +6,35 @@
 
 SimulateLobsterMovement = function(p){
   #commented lines below: To be used for debugging purposes only
-  # nrowgrids  <- p$nrowgrids
-  # ncolgrids  <- p$ncolgrids
-  # initlambda <- p$initlambda
-  # initD      <- p$initD
-  # ntraps     <- nrow(p$Trap)
-  # lobLengthThreshold <- p$lobLengthThreshold
-  # currentZoI <- p$currentZoI
-  # shrinkage <- p$shrinkage
-  # dStep <- p$dStep
-  # tSteps <- p$tSteps
-  # howClose <- p$howClose
-  # q0 <- p$q0
-  # qmin <- p$qmin
-  # saturationThreshold <- p$saturationThreshold
-  # trapSaturation <- p$trapSaturation
-  # lengthBased <- p$lengthBased
-  # lobLengthThreshold <- p$lobLengthThreshold
-  # Trap <- p$Trap
-  # radiusOfInfluence <- p$radiusOfInfluence
-  # lobsterSexDist <- p$lobsterSexDist
-  # lobsterSizeFile <- p$lobsterSizeFile
+  nrowgrids  <- p$nrowgrids
+  ncolgrids  <- p$ncolgrids
+  unitarea   <- p$unitarea
+  initlambda <- p$initlambda
+  initD      <- p$initD
+  ntraps     <- nrow(p$Trap)
+  lobLengthThreshold <- p$lobLengthThreshold
+  currentZoI <- p$currentZoI
+  shrinkage <- p$shrinkage
+  dStep <- p$dStep
+  tSteps <- p$tSteps
+  howClose <- p$howClose
+  q0 <- p$q0
+  qmin <- p$qmin
+  saturationThreshold <- p$saturationThreshold
+  trapSaturation <- p$trapSaturation
+  lengthBased <- p$lengthBased
+  lobLengthThreshold <- p$lobLengthThreshold
+  Trap <- p$Trap
+  radiusOfInfluence <- p$radiusOfInfluence
+  lobsterSexDist <- p$lobsterSexDist
+  lobsterSizeFile <- p$lobsterSizeFile
+  sexBased <- p$sexBased
+
+
+  # START of lines to improve the speed
+
+  # END of lines to improve the speed
+
 
   with(p, {
 
@@ -45,7 +53,7 @@ SimulateLobsterMovement = function(p){
 
 
     coordinatesOverTime      <- list()
-    coordinatesOverTime[[1]] <- initialLobsterGrid(nrowgrids, ncolgrids, initlambda, initD, lobsterSizeFile, lobsterSexDist)
+    coordinatesOverTime[[1]] <- initialLobsterGrid(nrowgrids, ncolgrids, unitarea, initlambda, initD, lobsterSizeFile, lobsterSexDist)
 
 
     trapCatch           <- list()
@@ -66,9 +74,16 @@ SimulateLobsterMovement = function(p){
                                   lobSize = lobSize[[t-1]],
                                   lobSex  = lobSex[[t-1]],
                                   radiusOfInfluence = radiusOfInfluence,
-                                  currentZoI = currentZoI, dStep = dStep, howClose = howClose, q0 = q0, qmin = qmin,
-                                  saturationThreshold = saturationThreshold, trapSaturation = trapSaturation, lengthBased = lengthBased,
-                                  lobLengthThreshold = lobLengthThreshold, sexBased = sexBased)
+                                  currentZoI = currentZoI,
+                                  dStep = dStep,
+                                  howClose = howClose,
+                                  q0 = q0,
+                                  qmin = qmin,
+                                  saturationThreshold = saturationThreshold,
+                                  trapSaturation = trapSaturation,
+                                  lengthBased = lengthBased,
+                                  lobLengthThreshold = lobLengthThreshold,
+                                  sexBased = sexBased)
       # Adam: DO you think, this would help?
       #the following line can be moved out of
       #the loop so that we simply just Just keep the last iteration? To make things faster

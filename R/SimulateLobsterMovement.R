@@ -112,7 +112,7 @@ SimulateLobsterMovement = function(p){
     outputs$lobSex   = outlobsex
 
     CatchSimulationOutput[[k]] = outputs
-    print(paste('Timing', Sys.time()-start, 'for iteration #',k,sep=" "))
+    #print(paste('Timing', Sys.time()-start, 'for iteration #',k,sep=" "))
   }
   return(CatchSimulationOutput)
   })

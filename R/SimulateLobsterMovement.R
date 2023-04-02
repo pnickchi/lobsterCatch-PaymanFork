@@ -46,10 +46,10 @@ SimulateLobsterMovement = function(p){
   CatchSimulationOutput = list()
   for(k in 1:p$realizations){
 
-    start     <- Sys.time()
-    outputs   <- list()
-    outputs$traps    = rep(0, times = ntraps)
-    outputs$lobsters = data.frame(EASTING = 0, NORTHING = 0, trapped=0, T = 0, I = 0, lobLength = 0)
+    start            <- Sys.time()
+    outputs          <- list()
+    outputs$traps    <- rep(0, times = ntraps)
+    outputs$lobsters <- data.frame(EASTING = 0, NORTHING = 0, trapped=0, T = 0, I = 0, lobLength = 0)
 
 
     coordinatesOverTime      <- list()

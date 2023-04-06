@@ -3,7 +3,7 @@
 \name{catchability}
 \alias{catchability}
 \title{This function calculates the probability of entry to trap (aka catchability). In addition to parameters in Addison & Bell
-1997, length of catch can is added and can be included in calculation of catchability.}
+1997, length of catch can be added and included in calculation of catchability.}
 \usage{
 catchability(
   q0,
@@ -44,5 +44,5 @@ Returns the probability of entry to trap
 }
 \description{
 This function calculates the probability of entry to trap (aka catchability). In addition to parameters in Addison & Bell
-1997, length of catch can is added and can be included in calculation of catchability.
+1997, length of catch can be added and included in calculation of catchability.
 }

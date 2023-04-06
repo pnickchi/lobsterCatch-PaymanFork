@@ -27,27 +27,27 @@ GetdfComplete = function(x, extp){
 }
 
 
-nrowgrids           <- c(10,  10)
-ncolgrids           <- c(10,  10)
+nrowgrids           <- c(200,  200)
+ncolgrids           <- c(200,  200)
 unitarea            <- c(100, 100)
-initlambda          <- c(0.5, 1)
+initlambda          <- c(0.5, 0.5)
 initD               <- c(3,  3)
 shrinkage           <- c(0.993, 0.993)
 currentZoI          <- c(15, 15)
 radiusOfInfluence   <- c(15, 15)
-Trap                <- list(data.frame( x = c(5), y = c(5) ), data.frame( x = c(2,4), y = c(2,4) ))
+Trap                <- list(data.frame( x = c(100), y = c(100) ), data.frame( x = c(100), y = c(100) ))
 ntraps              <- unlist( lapply(X = Trap, nrow) )
 saturationThreshold <- c(5,   5)
 howClose            <- c(0.5, 0.5)
-dStep               <- c(10,  10)
+dStep               <- c(1,  10)
 lengthBased         <- c(TRUE,TRUE)
 lobsterSizeFile     <- 'D:/Personal/Vahab/Grid/package_on_github/lobsterCatch-PaymanFork/inst/extdata/LobsterSizeFreqs.csv'
 lobLengthThreshold  <- c(115, 115)
 trapSaturation      <- c(FALSE, FALSE)
-q0                  <- c(0.5, 1)
-qmin                <- c(0,   1)
-realizations        <- c(50,  50)
-tSteps              <- c(20,  20)
+q0                  <- c(0.5, 0.5)
+qmin                <- c(0,   0)
+realizations        <- c(10,  10)
+tSteps              <- c(50,  50)
 sexBased            <- c(TRUE,TRUE)
 lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
                             prob1 = c(0.55,0.35,0.05,0.05),

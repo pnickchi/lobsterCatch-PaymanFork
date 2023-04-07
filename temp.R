@@ -1,6 +1,7 @@
 # Load packages
 library(tidyverse)
 library(ggplot2)
+library(dplyr)
 
 # Define function
 GetdfComplete = function(x, extp){
@@ -122,8 +123,8 @@ for(i in 1:nsettings){
   resultdfcomplete[[i]]  <- GetdfComplete(x = Results[[i]], extp = p)
 
   # Uncomment the following lines to save the output as a RDS file
-  # saveRDS(object = Simrun[[i]],  file = paste0('Set_', i, '_Simrun', '.rds') )
-  # saveRDS(object = Results[[i]], file = paste0('Set_', i, '_Results', '.rds'))
-  # saveRDS(object = resultdfcomplete[[i]], file = paste0('Set_', i, '_resultdfcomplete', '.rds'))
+  saveRDS(object = Simrun[[i]],  file = paste0('results_for_debug/Set_', i, '_Simrun', '.rds') )
+  saveRDS(object = Results[[i]], file = paste0('results_for_debug/Set_', i, '_Results', '.rds'))
+  saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i, '_resultdfcomplete', '.rds'))
 }
 

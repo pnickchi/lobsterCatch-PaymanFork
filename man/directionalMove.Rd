@@ -3,7 +3,7 @@
 \name{directionalMove}
 \alias{directionalMove}
 \title{This function moves  lobsters toward the trap (+some randomness). The closer a lobster gets to the trap the smaller the random component of movement. This function will
-a lobster is within the radius of influece of a trap.}
+a lobster is within the radius of influence of a trap.}
 \usage{
 directionalMove(
   Lobster,
@@ -32,5 +32,5 @@ Returns the new coordinates of each lobster
 }
 \description{
 This function moves  lobsters toward the trap (+some randomness). The closer a lobster gets to the trap the smaller the random component of movement. This function will
-a lobster is within the radius of influece of a trap.
+a lobster is within the radius of influence of a trap.
 }

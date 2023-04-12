@@ -7,6 +7,7 @@
 initialLobsterGrid(
   nrowgrids,
   ncolgrids,
+  unitarea,
   initlambda,
   initD,
   lobsterSizeFile,
@@ -17,6 +18,8 @@ initialLobsterGrid(
 \item{nrowgrids}{is a numeric value which defines number of rows of the arena}
 
 \item{ncolgrids}{is a numeric value which defines number of columns of the arena}
+
+\item{unitarea}{is the unit area used for estimating density of lobsters.}
 
 \item{initlambda}{is the density of lobsters at the beginning of simulation}
 

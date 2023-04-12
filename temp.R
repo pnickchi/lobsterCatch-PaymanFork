@@ -2,6 +2,13 @@
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
+library(usethis)
+library(devtools)
+
+load_all()
+document()
+#check()
+#build()
 
 # Define function
 GetdfComplete = function(x, extp){

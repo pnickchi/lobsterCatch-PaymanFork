@@ -22,13 +22,13 @@ GetdfComplete = function(x, extp){
   howClose            <- rep.int(p$howClose,            p$realizations)
   trapSaturation      <- rep.int(p$trapSaturation,      p$realizations)
 
-  res <- bind_cols(temp, densitylambda, dstepmov, saturationThreshold, baitShrinkage, howClose, trapSaturation)
+  res <- bind_cols(temp, density, dstepmov, saturationThreshold, baitShrinkage, howClose, trapSaturation)
 
   clNames <- c(
     paste0('TimeToMax_Trap',    1:ncol(x$TimeToMax)),
     paste0('MaxCatch_Trap',     1:ncol(x$MaxCatch)),
     paste0('LegalCatchWt_Trap', 1:ncol(x$LegalCatchWt)),
-    paste0('TotalCatchWt_Trap', 1:ncol(x$TotalCatchWt)),
+    paste0('TotalCatchWt_Trap', 1:ncol(x$TotalCatchWt))
   )
   colnames(res) <- c(clNames,'densitylambda','dstepmov','saturationThreshold','baitShrinkage', 'howClose', 'trapSaturation')
 

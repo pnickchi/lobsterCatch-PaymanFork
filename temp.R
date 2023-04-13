@@ -34,33 +34,38 @@ GetdfComplete = function(x, extp){
 
 }
 
+initlambda          <- c(0.1, 0.5, 1)
+dStep               <- c(1, 5,  10)
 
-nrowgrids           <- c(200,  200)
-ncolgrids           <- c(200,  200)
-unitarea            <- c(100, 100)
-initlambda          <- c(0.5, 0.5)
-initD               <- c(3,  3)
-shrinkage           <- c(0.993, 0.993)
-currentZoI          <- c(15, 15)
-radiusOfInfluence   <- c(15, 15)
-Trap                <- list(data.frame( x = c(100), y = c(100) ), data.frame( x = c(100), y = c(100) ))
+nrowgrids           <- rep(200, length(initlambda) * length(dStep))
+ncolgrids           <- rep(200, length(initlambda) * length(dStep))
+unitarea            <- rep(100, length(initlambda) * length(dStep))
+initD               <- rep(3, length(initlambda) * length(dStep))
+shrinkage           <- rep(0.993, length(initlambda) * length(dStep))
+currentZoI          <- rep(15, length(initlambda) * length(dStep))
+radiusOfInfluence   <- rep(15, length(initlambda) * length(dStep))
+saturationThreshold <- rep(5, length(initlambda) * length(dStep))
+howClose            <- rep(0.5, length(initlambda) * length(dStep))
+Trap                <- rep(list(data.frame( x = c(100), y = c(100))),  length(initlambda) * length(dStep))
 ntraps              <- unlist( lapply(X = Trap, nrow) )
-saturationThreshold <- c(5,   5)
-howClose            <- c(0.5, 0.5)
-dStep               <- c(1,  10)
-lengthBased         <- c(TRUE,TRUE)
-lobsterSizeFile     <- 'D:/Personal/Vahab/Grid/package_on_github/lobsterCatch-PaymanFork/inst/extdata/LobsterSizeFreqs.csv'
-lobLengthThreshold  <- c(115, 115)
-trapSaturation      <- c(FALSE, FALSE)
-q0                  <- c(0.5, 0.5)
-qmin                <- c(0,   0)
-realizations        <- c(10,  10)
-tSteps              <- c(50,  50)
-sexBased            <- c(TRUE,TRUE)
+lobLengthThreshold  <- rep(115, length(initlambda) * length(dStep))
+q0                  <- rep(0.5, length(initlambda) * length(dStep))
+qmin                <- rep(0, length(initlambda) * length(dStep))
+realizations        <- rep(50, length(initlambda) * length(dStep))
+tSteps              <- rep(50, length(initlambda) * length(dStep))
+sexBased            <- rep(TRUE, length(initlambda) * length(dStep))
+lengthBased         <- rep(TRUE, length(initlambda) * length(dStep))
+trapSaturation      <- rep(FALSE, length(initlambda) * length(dStep))
+
+
+lobsterSizeFile     <- 'https://github.com/vpourfaraj/lobsterCatch/blob/main/inst/extdata/LobsterSizeFreqs.csv'
 lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
                             prob1 = c(0.55,0.35,0.05,0.05),
                             prob2 = c(0.5,0.50,0,0),
                             lobsterMatThreshold = 100)
+
+initlambda          <- c(0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 1, 1,1)
+dStep               <- c(1,1,1,5,5,5,10,10,10)
 
 param <- list( nrowgrids=nrowgrids,
                ncolgrids=ncolgrids,
@@ -130,8 +135,8 @@ for(i in 1:nsettings){
   resultdfcomplete[[i]]  <- GetdfComplete(x = Results[[i]], extp = p)
 
   # Uncomment the following lines to save the output as a RDS file
-  saveRDS(object = Simrun[[i]],  file = paste0('results_for_debug/Set_', i, '_Simrun', '.rds') )
-  saveRDS(object = Results[[i]], file = paste0('results_for_debug/Set_', i, '_Results', '.rds'))
+  #saveRDS(object = Simrun[[i]],  file = paste0('results_for_debug/Set_', i, '_Simrun', '.rds') )
+  #saveRDS(object = Results[[i]], file = paste0('results_for_debug/Set_', i, '_Results', '.rds'))
   saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i, '_resultdfcomplete', '.rds'))
 }
 

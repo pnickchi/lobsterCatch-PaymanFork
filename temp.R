@@ -36,8 +36,9 @@ GetdfComplete = function(x, extp){
 
 }
 
-initlambda          <- c(0.1, 0.5, 1, 1.6)
-dStep               <- c(1, 5,  10)
+# initlambda          <- c(0.1, 0.5, 1, 1.6)
+initlambda          <- 0.5
+dStep               <- 1:10
 
 nrowgrids           <- rep(200, length(initlambda) * length(dStep))
 ncolgrids           <- rep(200, length(initlambda) * length(dStep))
@@ -53,7 +54,7 @@ ntraps              <- unlist( lapply(X = Trap, nrow) )
 lobLengthThreshold  <- rep(115, length(initlambda) * length(dStep))
 q0                  <- rep(0.5, length(initlambda) * length(dStep))
 qmin                <- rep(0.5, length(initlambda) * length(dStep))
-realizations        <- rep(10, length(initlambda) * length(dStep))
+realizations        <- rep(50, length(initlambda) * length(dStep))
 tSteps              <- rep(50, length(initlambda) * length(dStep))
 sexBased            <- rep(TRUE, length(initlambda) * length(dStep))
 lengthBased         <- rep(TRUE, length(initlambda) * length(dStep))
@@ -66,8 +67,8 @@ lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
                             prob2 = c(0.5,0.50,0,0),
                             lobsterMatThreshold = 100)
 
-initlambda          <- c(0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 1, 1, 1, 1.6, 1.6, 1.6)
-dStep               <- c(1,   5  , 10 ,  1 ,  5 ,  10, 1, 5, 10, 1, 5, 10)
+initlambda          <- rep(0.5, 10)
+dStep               <- 1:10
 #dStep               <- c(1,1,1,5,5,5,10,10,10)
 
 param <- list( nrowgrids=nrowgrids,
@@ -140,6 +141,6 @@ for(i in 1:nsettings){
   # Uncomment the following lines to save the output as a RDS file
   #saveRDS(object = Simrun[[i]],  file = paste0('results_for_debug/Set_', i, '_Simrun', '.rds') )
   #saveRDS(object = Results[[i]], file = paste0('results_for_debug/Set_', i, '_Results', '.rds'))
-  saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i, '_resultdfcomplete', '.rds'))
+  saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i+17, '_resultdfcomplete', '.rds'))
 }
 

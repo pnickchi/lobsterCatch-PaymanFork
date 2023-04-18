@@ -36,30 +36,33 @@ GetdfComplete = function(x, extp){
 
 }
 
-# initlambda          <- c(0.1, 0.5, 1, 1.6)
-initlambda          <- 0.5
+# Variables that have different values
+initlambda          <- c(0.1,   0.5, 1, 1.6)
+howClose            <- c(0.5,   1,   1.5)
+shrinkage           <- c(0.993, 0.995)
 dStep               <- 1:10
 
-nrowgrids           <- rep(200, length(initlambda) * length(dStep))
-ncolgrids           <- rep(200, length(initlambda) * length(dStep))
-unitarea            <- rep(100, length(initlambda) * length(dStep))
-initD               <- rep(3, length(initlambda) * length(dStep))
-shrinkage           <- rep(0.993, length(initlambda) * length(dStep))
-currentZoI          <- rep(15, length(initlambda) * length(dStep))
-radiusOfInfluence   <- rep(15, length(initlambda) * length(dStep))
-saturationThreshold <- rep(5, length(initlambda) * length(dStep))
-howClose            <- rep(0.5, length(initlambda) * length(dStep))
-Trap                <- rep(list(data.frame( x = c(100), y = c(100))),  length(initlambda) * length(dStep))
-ntraps              <- unlist( lapply(X = Trap, nrow) )
-lobLengthThreshold  <- rep(115, length(initlambda) * length(dStep))
-q0                  <- rep(0.5, length(initlambda) * length(dStep))
-qmin                <- rep(0.5, length(initlambda) * length(dStep))
-realizations        <- rep(50, length(initlambda) * length(dStep))
-tSteps              <- rep(50, length(initlambda) * length(dStep))
-sexBased            <- rep(TRUE, length(initlambda) * length(dStep))
-lengthBased         <- rep(TRUE, length(initlambda) * length(dStep))
-trapSaturation      <- rep(FALSE, length(initlambda) * length(dStep))
+nsettings <- length(initlambda) * length(howClose) * length(shrinkage) * length(dStep)
 
+
+# Variables that have fixed value
+nrowgrids           <- rep(200, nsettings)
+ncolgrids           <- rep(200, nsettings)
+unitarea            <- rep(100, nsettings)
+initD               <- rep(3,   nsettings)
+currentZoI          <- rep(15,  nsettings)
+radiusOfInfluence   <- rep(15,  nsettings)
+saturationThreshold <- rep(5,   nsettings)
+Trap                <- rep(list( data.frame(x = c(100), y = c(100)) ), nsettings)
+ntraps              <- unlist( lapply(X = Trap, nrow) )
+lobLengthThreshold  <- rep(115, nsettings)
+q0                  <- rep(0.5, nsettings)
+qmin                <- rep(0.5, nsettings)
+realizations        <- rep(50,  nsettings)
+tSteps              <- rep(50, nsettings)
+sexBased            <- rep(TRUE, nsettings)
+lengthBased         <- rep(TRUE, nsettings)
+trapSaturation      <- rep(FALSE, nsettings)
 
 lobsterSizeFile     <- 'https://raw.githubusercontent.com/vpourfaraj/lobsterCatch/main/inst/extdata/LobsterSizeFreqs.csv'
 lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
@@ -67,9 +70,13 @@ lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
                             prob2 = c(0.5,0.50,0,0),
                             lobsterMatThreshold = 100)
 
-initlambda          <- rep(0.5, 10)
-dStep               <- 1:10
-#dStep               <- c(1,1,1,5,5,5,10,10,10)
+
+temp <- expand.grid(initlambda, howClose, shrinkage, dStep)
+initlambda <- temp$Var1
+howClose   <- temp$Var2
+shrinkage  <- temp$Var3
+dStep      <- temp$Var4
+
 
 param <- list( nrowgrids=nrowgrids,
                ncolgrids=ncolgrids,
@@ -95,7 +102,65 @@ param <- list( nrowgrids=nrowgrids,
                sexBased=sexBased,
                lobsterSexDist=lobsterSexDist)
 
-nsettings <- length(param$nrowgrids)
+
+
+
+# nrowgrids           <- rep(200, length(initlambda) * length(dStep))
+# ncolgrids           <- rep(200, length(initlambda) * length(dStep))
+# unitarea            <- rep(100, length(initlambda) * length(dStep))
+# initD               <- rep(3, length(initlambda) * length(dStep))
+# shrinkage           <- rep(0.993, length(initlambda) * length(dStep))
+# currentZoI          <- rep(15, length(initlambda) * length(dStep))
+# radiusOfInfluence   <- rep(15, length(initlambda) * length(dStep))
+# saturationThreshold <- rep(5, length(initlambda) * length(dStep))
+# howClose            <- rep(0.5, length(initlambda) * length(dStep))
+# Trap                <- rep(list(data.frame( x = c(100), y = c(100))),  length(initlambda) * length(dStep))
+# ntraps              <- unlist( lapply(X = Trap, nrow) )
+# lobLengthThreshold  <- rep(115, length(initlambda) * length(dStep))
+# q0                  <- rep(0.5, length(initlambda) * length(dStep))
+# qmin                <- rep(0.5, length(initlambda) * length(dStep))
+# realizations        <- rep(50, length(initlambda) * length(dStep))
+# tSteps              <- rep(50, length(initlambda) * length(dStep))
+# sexBased            <- rep(TRUE, length(initlambda) * length(dStep))
+# lengthBased         <- rep(TRUE, length(initlambda) * length(dStep))
+# trapSaturation      <- rep(FALSE, length(initlambda) * length(dStep))
+
+# lobsterSizeFile     <- 'https://raw.githubusercontent.com/vpourfaraj/lobsterCatch/main/inst/extdata/LobsterSizeFreqs.csv'
+# lobsterSexDist      <- list(labels = c('M','F','MM','BF'),
+#                             prob1 = c(0.55,0.35,0.05,0.05),
+#                             prob2 = c(0.5,0.50,0,0),
+#                             lobsterMatThreshold = 100)
+# initlambda          <- rep(0.5, 10)
+# dStep               <- 1:10
+#dStep               <- c(1,1,1,5,5,5,10,10,10)
+
+# nsettings <- length(param$nrowgrids)
+
+
+# param <- list( nrowgrids=nrowgrids,
+#                ncolgrids=ncolgrids,
+#                unitarea=unitarea,
+#                initlambda=initlambda,
+#                initD=initD,
+#                shrinkage=shrinkage,
+#                currentZoI=currentZoI,
+#                radiusOfInfluence=radiusOfInfluence,
+#                Trap=Trap,
+#                ntraps=ntraps,
+#                saturationThreshold=saturationThreshold,
+#                howClose=howClose,
+#                dStep=dStep,
+#                lengthBased=lengthBased,
+#                lobsterSizeFile=lobsterSizeFile,
+#                lobLengthThreshold=lobLengthThreshold,
+#                trapSaturation=trapSaturation,
+#                q0=q0,
+#                qmin=qmin,
+#                realizations=realizations,
+#                tSteps=tSteps,
+#                sexBased=sexBased,
+#                lobsterSexDist=lobsterSexDist)
+
 
 
 #
@@ -109,7 +174,7 @@ for(i in 1:nsettings){
   p <- list()
   p$nrowgrids            <- param$nrowgrids[i]
   p$ncolgrids            <- param$ncolgrids[i]
-  p$ngrids               <- p$nrowgrids[i] * p$ncolgrids[i]
+  p$ngrids               <- param$nrowgrids[i] * param$ncolgrids[i]
   p$unitarea             <- param$unitarea[i]
   p$initlambda           <- param$initlambda[i]
   p$initD                <- param$initD[i]
@@ -141,6 +206,6 @@ for(i in 1:nsettings){
   # Uncomment the following lines to save the output as a RDS file
   #saveRDS(object = Simrun[[i]],  file = paste0('results_for_debug/Set_', i, '_Simrun', '.rds') )
   #saveRDS(object = Results[[i]], file = paste0('results_for_debug/Set_', i, '_Results', '.rds'))
-  saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i+17, '_resultdfcomplete', '.rds'))
+  saveRDS(object = resultdfcomplete[[i]], file = paste0('results_for_debug/Set_', i, '_resultdfcomplete', '.rds'))
 }
 
